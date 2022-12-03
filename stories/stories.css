@@ -1,0 +1,77 @@
+/* =========================================================================================== */
+/* EXAMPLE CONTENT 1
+/* =========================================================================================== */
+.container1 {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.image {
+    height: 80%;
+    width: 85%;
+    transform: rotate(0);
+    border-radius: 20px;
+    object-fit: cover;
+    filter: drop-shadow(2px 2px 1px rgb(99, 99, 99));
+    transition: 0.5s; /* Add a transition effect (when scrolling) */
+}
+
+.image__selected{
+    filter: drop-shadow(2px 2px 1px rgb(99, 99, 99)) blur(1px);
+    transform: rotate(15deg);
+}
+
+.text-overlay, .bg-overlay {
+    position: absolute;
+    opacity: 0;
+    transition: 0.5s; /* Add a transition effect (when scrolling) */
+}
+.text-overlay__selected {
+    opacity: 1;
+}
+
+.bg-overlay {
+    height: 80%;
+    width: 85%;
+    border-radius: 20px;
+    transform: rotate(0);
+    background-color: black;
+}
+.bg-overlay__selected {
+    transform: rotate(15deg);
+    opacity: 0.3;
+} 
+
+.title {
+    margin: 0;
+    font-family: cursive;
+    color: #e3e3e3;
+}
+
+/* =========================================================================================== */
+/* EXAMPLE CONTENT 2
+/* =========================================================================================== */
+.container2 {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;  
+}
+
+.number {
+    margin: 0;
+    opacity: 0.2;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.number__selected {
+    opacity: 1;
+    font-size: 25px;
+}

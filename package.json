@@ -1,5 +1,5 @@
 {
-  "name": "react-infinite-scroll-loop",
+  "name": "reactjs-infinite-scroll-loop",
   "version": "1.0.0",
   "description": "",
   "main": "dist/cjs/index.js",
@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf /dist && npm run build: cjs",
+    "build": "rm -rf /dist && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
     "storybook": "start-storybook -p 6006",

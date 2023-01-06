@@ -9,7 +9,7 @@ import { useOnStopScroll } from "../../hooks/useOnStopScroll";
 import "./infinite-scroll-loop.css";
 
 interface InfiniteScrollLoopProps {
-  children: React.ReactNode; // Content
+  children: React.ReactNode; /* The content */
   onSelect?: (selected: Element) => void;
   verticalScroll?: boolean;
   backup?: number;
@@ -41,8 +41,9 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
         ? (scrollRef.current.scrollTop = paddedContentSize)
         : (scrollRef.current.scrollLeft = paddedContentSize);
     }
-  }, [content, scrollRef, contentSize]);
+  });
 
+  /* Function to set the scroll back to the original content, called when user stops scrolling momentarily (see useOnStopScroll) */
   const handleScrollLoop = () => {
     if (scrollRef.current) {
       const contents = getEnrichedContents(scrollRef.current);
@@ -66,6 +67,7 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
     }
   };
 
+  /* Function called when content element is selected */
   const handleSelect = () => {
     if (scrollRef.current) {
       const containerCenter = getContainerCenter(
@@ -77,7 +79,7 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
 
       const ERROR = 1;
 
-      // Get the selected content and call onSelect on it
+      // Get the selected content and call onSelect (user-provided) on it
       for (const content of contents) {
         const contentCenter = getContainerCenter(content, verticalScroll);
         if (Math.abs(containerCenter - contentCenter) < ERROR) {
@@ -90,6 +92,7 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
   useOnStopScroll(scrollRef, handleScrollLoop, 50); // time has to be >= transition time
   useOnStopScroll(scrollRef, handleSelect, 200);
 
+  /* Function to detect selected element and activate/deactivate "*__selected" classes */
   const handleOnScroll = () => {
     if (scrollRef.current) {
       const containerCenter = getContainerCenter(
@@ -106,6 +109,8 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
         const contentSize = verticalScroll
           ? content.clientHeight
           : content.clientWidth;
+
+        // Get the intersection between the center area of the container and the content element
         const intersection = getIntersection(
           [
             containerCenter - contentSize / 2,
@@ -118,10 +123,13 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
           const intervalWidth = intersection[1] - intersection[0];
           const THRESHOLD = 0.5;
           if (intervalWidth / contentSize > THRESHOLD) {
+            // The current content is the one selected
+            // This loop will update the CSS classes of the current content and all its duplicate contents
             let j = 0;
 
             while (j < contents.length) {
               if ((j - i) % NO_OF_ELEMENTS == 0) {
+                // contents[j] is either the current content of a duplicate content of the current content
                 const descendants = Array.from(
                   contents[j].querySelectorAll("*")
                 );
@@ -140,6 +148,7 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
                   descendant.className = classes.join(" ");
                 }
               } else {
+                // all other contents that are not selected
                 const descendants = Array.from(
                   contents[j].querySelectorAll("*")
                 );

@@ -30,5 +30,5 @@ export const useOnStopScroll = (
     };
 
     listener(scrollRef.current);
-  }, [scrollRef]);
+  });
 };

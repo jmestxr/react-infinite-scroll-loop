@@ -1,4 +1,4 @@
-// Get all contents (Elements) of scroll container
+/* Get all contents (Elements) of scroll container */
 export const getEnrichedContents = (scrollContainer: HTMLDivElement) => {
   return Array.from(scrollContainer.children)
 };
@@ -12,13 +12,14 @@ export const getContents = (scrollContainer: HTMLDivElement) => {
   return contents;
 };
 
-
+/* Get the center area of the container (size is equal to a content element) */
 export const getContainerCenter = (container: Element, verticalScroll: boolean) => {
   const upper = verticalScroll ? container.getBoundingClientRect().top :container.getBoundingClientRect().left;
   const lower = verticalScroll ? container.getBoundingClientRect().bottom :container.getBoundingClientRect().right;
   return (upper + lower) / 2;
 };
 
+/* Get the intersection between two intervals */
 export const getIntersection = (
   interval1: [number, number],
   interval2: [number, number]

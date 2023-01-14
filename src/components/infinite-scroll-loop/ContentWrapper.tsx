@@ -5,6 +5,7 @@ interface ContentWrapperProps {
   height?: string;
   width?: string;
 }
+
 export const ContentWrapper = ({
   children: content,
   height = "auto",
@@ -14,8 +15,12 @@ export const ContentWrapper = ({
     React.Children.map(content, (child) => {
       return (
         <div
-          style={{ height: height, width: width, display: "inline-block" }}
-          className="content-wrapper"
+          style={{
+            height: height,
+            width: width,
+            display: "inline-block",
+            scrollSnapAlign: "center",
+          }}
         >
           {child}
         </div>

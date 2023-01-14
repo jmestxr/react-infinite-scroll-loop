@@ -1,4 +1,4 @@
-import React, { Children, FC, useEffect, useRef, useState } from "react";
+import React, { Children, useEffect, useRef, useState } from "react";
 import {
   getContainerCenter,
   getContents,
@@ -6,21 +6,21 @@ import {
   getIntersection,
 } from "../../functions/functions";
 import { useOnStopScroll } from "../../hooks/useOnStopScroll";
-import "./infinite-scroll-loop.css";
+import { ScrollContainer } from "./ScrollContainer";
 
 interface InfiniteScrollLoopProps {
-  children: React.ReactNode; /* The content */
+  children: React.ReactNode /* The content */;
   onSelect?: (selected: Element) => void;
   verticalScroll?: boolean;
   backup?: number;
 }
 
-export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
+export const InfiniteScrollLoop = ({
   children: content,
   onSelect,
   verticalScroll = true,
   backup = 50,
-}) => {
+}: InfiniteScrollLoopProps) => {
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const [contentSize, setContentSize] = useState<number>(0);
@@ -175,18 +175,15 @@ export const InfiniteScrollLoop: FC<InfiniteScrollLoopProps> = ({
   };
 
   return (
-    <div
+    <ScrollContainer
       ref={scrollRef}
       onScroll={handleOnScroll}
-      className={
-        "scroll-container" +
-        (verticalScroll ? " vertical-scroll" : " horizontal-scroll")
-      }
+      verticalScroll={verticalScroll}
     >
       <PaddedContent backup={backup}>{content}</PaddedContent>
       {content}
       <PaddedContent backup={backup}>{content}</PaddedContent>
-    </div>
+    </ScrollContainer>
   );
 };
 

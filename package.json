@@ -1,7 +1,7 @@
 {
   "name": "reactjs-infinite-scroll-loop",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.1",
+  "description": "React component that supports infinite scrolling of finite number of elements.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "files": [
@@ -14,7 +14,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "author": "",
+  "author": "jmestxr",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.20.5",

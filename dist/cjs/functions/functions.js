@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIntersection = exports.getContainerCenter = exports.getContents = exports.getEnrichedContents = void 0;
-// Get all contents (Elements) of scroll container
+/* Get all contents (Elements) of scroll container */
 const getEnrichedContents = (scrollContainer) => {
     return Array.from(scrollContainer.children);
 };
@@ -14,12 +14,14 @@ const getContents = (scrollContainer) => {
     return contents;
 };
 exports.getContents = getContents;
+/* Get the center area of the container (size is equal to a content element) */
 const getContainerCenter = (container, verticalScroll) => {
     const upper = verticalScroll ? container.getBoundingClientRect().top : container.getBoundingClientRect().left;
     const lower = verticalScroll ? container.getBoundingClientRect().bottom : container.getBoundingClientRect().right;
     return (upper + lower) / 2;
 };
 exports.getContainerCenter = getContainerCenter;
+/* Get the intersection between two intervals */
 const getIntersection = (interval1, interval2) => {
     const [l1, h1] = interval1;
     const [l2, h2] = interval2;

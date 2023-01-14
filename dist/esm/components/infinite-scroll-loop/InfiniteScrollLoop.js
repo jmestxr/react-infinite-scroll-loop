@@ -1,7 +1,7 @@
 import React, { Children, useEffect, useRef, useState } from "react";
 import { getContainerCenter, getContents, getEnrichedContents, getIntersection, } from "../../functions/functions";
 import { useOnStopScroll } from "../../hooks/useOnStopScroll";
-import "./infinite-scroll-loop.css";
+import { ScrollContainer } from "./ScrollContainer";
 export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll = true, backup = 50, }) => {
     const scrollRef = useRef(null);
     const [contentSize, setContentSize] = useState(0);
@@ -16,7 +16,8 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
                 ? (scrollRef.current.scrollTop = paddedContentSize)
                 : (scrollRef.current.scrollLeft = paddedContentSize);
         }
-    }, [content, scrollRef, contentSize]);
+    });
+    /* Function to set the scroll back to the original content, called when user stops scrolling momentarily (see useOnStopScroll) */
     const handleScrollLoop = () => {
         if (scrollRef.current) {
             const contents = getEnrichedContents(scrollRef.current);
@@ -36,12 +37,13 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
             }
         }
     };
+    /* Function called when content element is selected */
     const handleSelect = () => {
         if (scrollRef.current) {
             const containerCenter = getContainerCenter(scrollRef.current, verticalScroll);
             const contents = getContents(scrollRef.current);
             const ERROR = 1;
-            // Get the selected content and call onSelect on it
+            // Get the selected content and call onSelect (user-provided) on it
             for (const content of contents) {
                 const contentCenter = getContainerCenter(content, verticalScroll);
                 if (Math.abs(containerCenter - contentCenter) < ERROR) {
@@ -52,6 +54,7 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
     };
     useOnStopScroll(scrollRef, handleScrollLoop, 50); // time has to be >= transition time
     useOnStopScroll(scrollRef, handleSelect, 200);
+    /* Function to detect selected element and activate/deactivate "*__selected" classes */
     const handleOnScroll = () => {
         if (scrollRef.current) {
             const containerCenter = getContainerCenter(scrollRef.current, verticalScroll);
@@ -62,6 +65,7 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
                 const contentSize = verticalScroll
                     ? content.clientHeight
                     : content.clientWidth;
+                // Get the intersection between the center area of the container and the content element
                 const intersection = getIntersection([
                     containerCenter - contentSize / 2,
                     containerCenter + contentSize / 2,
@@ -70,9 +74,12 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
                     const intervalWidth = intersection[1] - intersection[0];
                     const THRESHOLD = 0.5;
                     if (intervalWidth / contentSize > THRESHOLD) {
+                        // The current content is the one selected
+                        // This loop will update the CSS classes of the current content and all its duplicate contents
                         let j = 0;
                         while (j < contents.length) {
                             if ((j - i) % NO_OF_ELEMENTS == 0) {
+                                // contents[j] is either the current content of a duplicate content of the current content
                                 const descendants = Array.from(contents[j].querySelectorAll("*"));
                                 for (const descendant of descendants) {
                                     let classes = descendant.className.split(" ");
@@ -83,6 +90,7 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
                                 }
                             }
                             else {
+                                // all other contents that are not selected
                                 const descendants = Array.from(contents[j].querySelectorAll("*"));
                                 for (const descendant of descendants) {
                                     let classes = descendant.className.split(" ");
@@ -100,8 +108,7 @@ export const InfiniteScrollLoop = ({ children: content, onSelect, verticalScroll
             }
         }
     };
-    return (React.createElement("div", { ref: scrollRef, onScroll: handleOnScroll, className: "scroll-container" +
-            (verticalScroll ? " vertical-scroll" : " horizontal-scroll") },
+    return (React.createElement(ScrollContainer, { ref: scrollRef, onScroll: handleOnScroll, verticalScroll: verticalScroll },
         React.createElement(PaddedContent, { backup: backup }, content),
         content,
         React.createElement(PaddedContent, { backup: backup }, content)));

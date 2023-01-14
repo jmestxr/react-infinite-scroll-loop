@@ -24,6 +24,6 @@ export const useOnStopScroll = (scrollRef, handler, time) => {
             };
         };
         listener(scrollRef.current);
-    }, [scrollRef]);
+    });
 };
 //# sourceMappingURL=useOnStopScroll.js.map

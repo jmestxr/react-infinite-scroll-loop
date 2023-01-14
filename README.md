@@ -1,8 +1,17 @@
 # react-infinite-scroll-loop
+React component that supports infinite scrolling of finite number of elements.
 ![demo3](https://user-images.githubusercontent.com/87931905/205445577-bf050286-d98e-45df-b688-7c1c1f088117.gif)
+
+## Installation
+To download react-infinite-scroll-loop, run:
+```console
+npm i reactjs-infinite-scroll-loop
+```
 
 ## Usage
 ```jsx
+import { InfiniteScrollLoop, ContentWrapper } from 'reactjs-infinite-scroll-loop';
+
 <InfiniteScrollLoop {/* props here */}>
     <ContentWrapper {/* props here */}>
         {/* Content element 1 */}
